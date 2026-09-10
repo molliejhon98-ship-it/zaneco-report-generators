@@ -3,64 +3,270 @@
 <head>
   <meta charset="UTF-8">
   <title>ZANECO Report Generator</title>
+
   <style>
-    /* Background slideshow container */
     body {
       font-family: "Segoe UI", Arial, sans-serif;
-      margin:0; padding:0; text-align:center;
+      margin: 0;
+      padding: 0;
+      text-align: center;
       height: 100vh;
       overflow-x: hidden;
     }
 
     .bg-slideshow {
       position: fixed;
-      top:0; left:0;
-      width:100%; height:100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       z-index: -1;
-      overflow:hidden;
+      overflow: hidden;
     }
+
     .bg-slideshow img {
-      width:100%; height:100%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      position:absolute;
-      top:0; left:0;
-      opacity:0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
       animation: fadeBg 24s infinite;
     }
-    .bg-slideshow img:nth-child(1) { animation-delay: 0s; }
-    .bg-slideshow img:nth-child(2) { animation-delay: 8s; }
-    .bg-slideshow img:nth-child(3) { animation-delay: 16s; }
 
-    @keyframes fadeBg {
-      0% {opacity:0;}
-      10% {opacity:1;}
-      30% {opacity:1;}
-      40% {opacity:0;}
-      100% {opacity:0;}
+    .bg-slideshow img:nth-child(1) {
+      animation-delay: 0s;
     }
 
-    header { background: #003366cc; color: gold; padding: 20px; text-align: center; font-size: 22px; font-weight: bold; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-    header span { display:block; font-size:14px; color:white; margin-top:5px; }
-    h1 { color:#003366; font-size: 28px; margin-bottom:10px; }
-    .box { background:#fff; padding:30px; margin:40px auto; border-radius:16px; box-shadow:0 6px 18px rgba(0,0,0,0.2); width:85%; max-width:950px; position:relative; }
-    input, select { padding:10px; margin:10px; border-radius:8px; border:1px solid #bbb; font-size:14px; }
-    button { background: linear-gradient(135deg, gold, orange); border:none; padding:12px 22px; margin:10px; border-radius:8px; cursor:pointer; font-weight:bold; font-size:14px; color:#003366; box-shadow:0 3px 6px rgba(0,0,0,0.2); transition: transform 0.1s ease; }
-    button:hover { background: linear-gradient(135deg, orange, gold); transform:scale(1.05); }
-    .hidden { display:none; }
-    .error { color:red; font-weight:bold; display:none; margin-top:10px; }
-    table { border-collapse:collapse; width:100%; margin-top:20px; font-size:14px; }
-    th, td { border:1px solid #333; padding:10px; text-align:center; }
-    th { background:#003366; color:gold; font-size:15px; }
-    tr:nth-child(even) { background:#f9f9f9; }
-    tr:hover { background:#eef6ff; }
-    .top-btn { position:absolute; top:15px; left:15px; background:#003366; color:white; font-size:12px; padding:6px 12px; border-radius:6px; }
-    .about-box { position:absolute; top:15px; right:15px; background:#003366; color:gold; padding:8px 14px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.2); }
-    .about-content { text-align:left; margin-top:20px; border:1px solid #ccc; padding:18px; border-radius:10px; background:#fefefe; box-shadow: inset 0 2px 6px rgba(0,0,0,0.1); }
-    .delete-btn { background:red; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; }
-    .delete-btn:hover { background:darkred; }
+    .bg-slideshow img:nth-child(2) {
+      animation-delay: 8s;
+    }
+
+    .bg-slideshow img:nth-child(3) {
+      animation-delay: 16s;
+    }
+
+    @keyframes fadeBg {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      30% { opacity: 1; }
+      40% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    header {
+      background: #003366cc;
+      color: gold;
+      padding: 20px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    header span {
+      display: block;
+      font-size: 14px;
+      color: white;
+      margin-top: 5px;
+    }
+
+    h1 {
+      color: #003366;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      color: #003366;
+    }
+
+    .box {
+      background: #fff;
+      padding: 30px;
+      margin: 40px auto;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 1100px;
+      position: relative;
+    }
+
+    input,
+    select {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
+      border: 1px solid #bbb;
+      font-size: 14px;
+    }
+
+    button {
+      background: linear-gradient(135deg, gold, orange);
+      border: none;
+      padding: 12px 22px;
+      margin: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      color: #003366;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      transition: transform 0.1s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, orange, gold);
+      transform: scale(1.05);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+      display: none;
+      margin-top: 10px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      border: 1px solid #333;
+      padding: 9px;
+      text-align: center;
+    }
+
+    th {
+      background: #003366;
+      color: gold;
+      font-size: 14px;
+    }
+
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    tr:hover {
+      background: #eef6ff;
+    }
+
+    .top-btn {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: #003366;
+      color: white;
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+
+    .about-box {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #003366;
+      color: gold;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .about-content {
+      text-align: left;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 18px;
+      border-radius: 10px;
+      background: #fefefe;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .delete-btn {
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background: darkred;
+    }
+
+    .cost-total {
+      font-size: 18px;
+      font-weight: bold;
+      color: #003366;
+      margin-top: 15px;
+      text-align: right;
+    }
+
+    .steel-title {
+      color: #8b4513;
+      margin-top: 35px;
+    }
+
+    .regular-title {
+      color: #003366;
+      margin-top: 30px;
+    }
+
+    .grand-total {
+      background: #003366;
+      color: gold;
+      padding: 18px;
+      margin-top: 25px;
+      border-radius: 10px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .structure-summary {
+      margin-top: 20px;
+    }
+
+    .currency {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white;
+      }
+
+      .box {
+        box-shadow: none;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+      }
+    }
   </style>
 </head>
+
 <body>
+
 <!-- Background Slideshow -->
 <div class="bg-slideshow">
   <img src="zaneco.jpg" alt="bg1">
@@ -73,187 +279,1570 @@
   <span id="welcomeUser" class="hidden"></span>
 </header>
 
+
 <!-- LOGIN PAGE -->
 <div id="loginPage" class="box">
+
   <h1>Welcome to ZANECO Report Generator</h1>
+
   <p>Please enter your full name and password to continue:</p>
-  <input type="text" id="username" placeholder="Enter full name"> <br>
-  <input type="password" id="password" placeholder="Enter password"> <br>
+
+  <input
+    type="text"
+    id="username"
+    placeholder="Enter full name"
+  >
+  <br>
+
+  <input
+    type="password"
+    id="password"
+    placeholder="Enter password"
+  >
+  <br>
+
   <button onclick="login()">Enter</button>
-  <div id="error" class="error">YOU ARE NOT ALLOWED TO BE HERE / NO PERMISSION TO ENTER!</div>
+
+  <div id="error" class="error">
+    YOU ARE NOT ALLOWED TO BE HERE / NO PERMISSION TO ENTER!
+  </div>
+
 </div>
+
 
 <!-- INTRO PAGE -->
 <div id="introPage" class="box hidden">
+
   <button class="top-btn" onclick="logout()">⬅ Logout</button>
+
   <div class="about-box" onclick="toggleAbout()">ℹ About</div>
+
   <h1>Main Menu</h1>
+
   <p>Choose an option:</p>
-  <button onclick="showPage('materialCostPage')">💰 Distribution Line Material Cost</button>
-  <button onclick="showPage('materialListPage')">📋 Distribution Line Material List</button>
+
+  <button onclick="showPage('materialCostPage')">
+    💰 Distribution Line Material Cost
+  </button>
+
+  <button onclick="showPage('materialListPage')">
+    📋 Distribution Line Material List
+  </button>
+
   <div id="aboutSection" class="about-content hidden">
+
     <h3>About this Website</h3>
-    <p> Designed and developed by <b>Engr. Jhon Kevent Antecristo</b> – Planning and Design Assistant at <b>Zamboanga Del Norte Electric Cooperative (ZANECO)</b>. <br><br>
-    This system helps engineers and planners calculate and generate material requirements for distribution line structures based on NEA Engineering Bulletins. It provides quick summaries and printable reports for project use.
+
+    <p>
+      Designed and developed by
+      <b>Engr. Jhon Kevent Antecristo</b>
+      – Planning and Design Assistant at
+      <b>Zamboanga Del Norte Electric Cooperative (ZANECO)</b>.
+      <br><br>
+
+      This system helps engineers and planners calculate and generate
+      material requirements for distribution line structures based on
+      NEA Engineering Bulletins. It provides quick summaries,
+      cost calculations, and printable reports for project use.
     </p>
+
   </div>
+
 </div>
+
 
 <!-- MATERIAL COST PAGE -->
 <div id="materialCostPage" class="box hidden">
-  <button class="top-btn" onclick="showPage('introPage')">⬅ Back</button>
+
+  <button class="top-btn" onclick="showPage('introPage')">
+    ⬅ Back
+  </button>
+
   <h1>💰 Material Cost Generator</h1>
-  <p>Feature coming soon (integration of costing formulas).</p>
+
+  <p>
+    Material costing is integrated into the Material List Generator.
+  </p>
+
+  <button onclick="showPage('materialListPage')">
+    📋 Open Material List Generator
+  </button>
+
 </div>
+
 
 <!-- MATERIAL LIST PAGE -->
 <div id="materialListPage" class="box hidden">
-  <button class="top-btn" onclick="showPage('introPage')">⬅ Back</button>
-  <h1>📋 Material List Generator</h1>
-  <select id="structureSelect">
-    <option value="">-- Select Structure --</option>
-  </select>
-  <input type="number" id="structureQty" min="1" value="1" style="width:80px;">
-  <button onclick="addStructure()">➕ Add Structure</button>
-  <button onclick="printReport()">🖨 Print Report</button>
+
+  <button class="top-btn no-print" onclick="showPage('introPage')">
+    ⬅ Back
+  </button>
+
+  <h1>📋 Distribution Line Material List Generator</h1>
+
+  <div class="no-print">
+
+    <select id="structureSelect">
+      <option value="">-- Select Structure --</option>
+    </select>
+
+    <input
+      type="number"
+      id="structureQty"
+      min="1"
+      value="1"
+      style="width:80px;"
+    >
+
+    <button onclick="addStructure()">
+      ➕ Add Structure
+    </button>
+
+    <button onclick="clearAll()">
+      🗑 Clear All
+    </button>
+
+    <button onclick="printReport()">
+      🖨 Print Report
+    </button>
+
+  </div>
+
+
+  <!-- SELECTED STRUCTURES -->
   <h3>Selected Structures</h3>
+
   <table>
-    <thead><tr><th>#</th><th>Structure</th><th>Qty</th><th>Action</th></tr></thead>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Structure</th>
+        <th>Quantity</th>
+        <th class="no-print">Action</th>
+      </tr>
+    </thead>
+
     <tbody id="structureTable"></tbody>
   </table>
-  <h3>Materials Summary</h3>
+
+
+  <!-- REGULAR MATERIALS -->
+  <h2 class="regular-title">
+    Regular Materials Summary
+  </h2>
+
   <table>
-    <thead><tr><th>Material</th><th>Quantity</th></tr></thead>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Material</th>
+        <th>Unit Price</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th>Total Price</th>
+      </tr>
+    </thead>
+
     <tbody id="materialsTable"></tbody>
+
   </table>
+
+  <div id="regularSubtotal" class="cost-total">
+    Regular Materials Subtotal: ₱0.00
+  </div>
+
+
+  <!-- STEEL MATERIALS -->
+  <h2 class="steel-title">
+    Steel Materials
+  </h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Steel Material</th>
+        <th>Unit Price</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th>Total Price</th>
+      </tr>
+    </thead>
+
+    <tbody id="steelMaterialsTable"></tbody>
+
+  </table>
+
+  <div id="steelSubtotal" class="cost-total">
+    Steel Materials Subtotal: ₱0.00
+  </div>
+
+
+  <!-- GRAND TOTAL -->
+  <div id="grandTotal" class="grand-total">
+    GRAND TOTAL: ₱0.00
+  </div>
+
 </div>
 
+
 <script>
-  // Allowed users with designated password
-  const allowedUsers = {
-    "Jhon Kevent Antecristo": "ZANECO123456",
-    "Louie-J Iniego": "ZANECO123456"
-  };
 
-  let currentUser = "";
-  let selectedStructures = [];
-  let materialSummary = {};
+/* =========================================================
+   LOGIN
+========================================================= */
 
-  // Structures with materials
-  const structuresDB = {
-    "A1": { "Anchor, Expanding 10,000 lbs": 2, "Bolt Machine 5/8x10": 10, "Nut Hex": 10 },
-    "A2": { "Crossarm 3x4x8": 2, "Insulator Pin": 2, "Lag Screw": 4 },
-    "A3": { "Clamp Suspension": 2, "Shackle Forged": 2, "Anchor Bolt": 2 },
-    "B1": { "Pole, Steel 30 ft": 1, "Ground Rod": 1, "Guy Wire": 2 },
-    "B2": { "Steel Rod": 2, "Coupling": 2, "Anchor Bolt": 2 }
-  };
+const allowedUsers = {
+  "Jhon Kevent Antecristo": "ZANECO123456",
+  "Louie-J Iniego": "ZANECO123456"
+};
 
-  function login() {
-    const name = document.getElementById("username").value.trim();
-    const pass = document.getElementById("password").value.trim();
+let currentUser = "";
 
-    if (allowedUsers[name] && allowedUsers[name] === pass) {
-      currentUser = name;
-      document.getElementById("welcomeUser").textContent = "👤 Welcome, " + name;
-      document.getElementById("welcomeUser").classList.remove("hidden");
-      showPage("introPage");
-      document.getElementById("error").style.display = "none";
-    } else {
-      document.getElementById("error").style.display = "block";
+let selectedStructures = [];
+
+let materialSummary = {};
+
+let steelSummary = {};
+
+
+/* =========================================================
+   STRUCTURES DATABASE
+========================================================= */
+
+const structuresDB = {
+
+
+  /* ---------------------------------------------------------
+     TF-1
+  --------------------------------------------------------- */
+
+  "TF-1": {
+
+    materials: {
+
+      'Bolt, Machine 3/4" x 12", HDG':
+        { price: 100, qty: 2, unit: "pieces" },
+
+      'Bolt, Machine 3/4" x 14", HDG':
+        { price: 110, qty: 2, unit: "pieces" },
+
+      'Bolt, Oval Eye 5/8" x 10", HDG':
+        { price: 131, qty: 1, unit: "pieces" },
+
+      'Clamp, Parallel Groove (PG Clamp) for OPGW':
+        { price: 470, qty: 1, unit: "pieces" },
+
+      'Connector, Ground Rod (Clamp) for 5/8" Steel Rod':
+        { price: 43, qty: 1, unit: "pieces" },
+
+      'Connector, Grounding Post 1/2" Stud Thread, L=2 3/16" for Copper #2.0 AWG':
+        { price: 180, qty: 4, unit: "pieces" },
+
+      'Grounding Rod, Steel, Galvanized, 5/8" x 10\', HDG':
+        { price: 700, qty: 1, unit: "pieces" },
+
+      'Grounding Wire (Aluminum Alloy) for OPGW with Terminal Connection':
+        { price: 280, qty: 1, unit: "pieces" },
+
+      'Insulator, Post Horizontal (Silicon), 69kV, Gain Base, 12 Deg. Rise with Top Clamp, Drop Tongue & Conductor Clamp, L=42.3"':
+        { price: 6802, qty: 3, unit: "pieces" },
+
+      'Nut, Lock 5/8" Mf Type, HDG':
+        { price: 23, qty: 3, unit: "pieces" },
+
+      'Nut, Lock 3/4" Mf Type, HDG':
+        { price: 30, qty: 4, unit: "pieces" },
+
+      'Pole Ground Wire, Copper Bare #2.0 AWG':
+        { price: 88, qty: 3, unit: "meters" },
+
+      'Rod, Armor, Preformed, #336.4 MCM, Double Support':
+        { price: 1500, qty: 3, unit: "sets" },
+
+      'Single Armor Grip Suspension Set for OPGW with Structural Reinforcing Rod & Outer Rod':
+        { price: 880, qty: 1, unit: "sets" },
+
+      'Washer, Flat Square, 2 1/4" x 2 1/4" x 3/16" w/ 11/16" Dia. Hole, HDG':
+        { price: 30, qty: 1, unit: "pieces" },
+
+      'Washer, Flat Square, 3" x 3" x 1/4" w/ 11/16" Dia. Hole, HDG':
+        { price: 45, qty: 2, unit: "pieces" },
+
+      'Washer, Flat Square, 3" x 3" x 1/4" w/ 13/16" Dia. Hole, HDG':
+        { price: 79, qty: 4, unit: "pieces" }
+
+    },
+
+    steel: {
+
+      'Pole, Steel, 70\', Bare-4.0mm (Two section), 86 Micron, 1200kgs (Minimum Load Break with Step Rank':
+        { price: 165000, qty: 1, unit: "piece" }
+
     }
-  }
 
-  function logout() {
-    currentUser = "";
-    selectedStructures = [];
-    materialSummary = {};
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
-    document.getElementById("welcomeUser").classList.add("hidden");
-    showPage("loginPage");
-  }
+  },
 
-  function showPage(pageId) {
-    document.querySelectorAll(".box").forEach(el => el.classList.add("hidden"));
-    document.getElementById(pageId).classList.remove("hidden");
-    if (pageId === "materialListPage") {
-      populateStructureSelect();
-      updateTables();
+
+  /* ---------------------------------------------------------
+     TP-1
+  --------------------------------------------------------- */
+
+  "TP-1": {
+
+    materials: {
+
+      'Bolt, Machine 3/4" x 12", HDG':
+        { price: 100, qty: 4, unit: "pieces" },
+
+      'Bolt, Machine 3/4" x 14", HDG':
+        { price: 110, qty: 2, unit: "pieces" },
+
+      'Bolt, Oval Eye 5/8" x 10", HDG':
+        { price: 131, qty: 1, unit: "pieces" },
+
+      'Clamp, Parallel Groove (PG Clamp) for OPGW':
+        { price: 470, qty: 1, unit: "pieces" },
+
+      'Connector, Ground Rod (Clamp) for 5/8" Steel Rod':
+        { price: 43, qty: 1, unit: "pieces" },
+
+      'Connector, Grounding Post 1/2" Stud Thread, L=2 3/16" for Copper #2.0 AWG':
+        { price: 180, qty: 4, unit: "pieces" },
+
+      'Grounding Rod, Steel, Galvanized, 5/8" x 10\', HDG':
+        { price: 700, qty: 1, unit: "pieces" },
+
+      'Grounding Wire (Aluminum Alloy) for OPGW with Terminal Connection':
+        { price: 280, qty: 1, unit: "pieces" },
+
+      'Insulator, Post Horizontal (Silicon), 69kV, Gain Base, 12 Deg. Rise with Top Clamp, Drop Tongue & Conductor Clamp, L=42.3"':
+        { price: 6802, qty: 3, unit: "pieces" },
+
+      'Nut, Lock 5/8" Mf Type, HDG':
+        { price: 23, qty: 3, unit: "pieces" },
+
+      'Nut, Lock 3/4" Mf Type, HDG':
+        { price: 30, qty: 6, unit: "pieces" },
+
+      'Pole Ground Wire, Copper Bare #2.0 AWG':
+        { price: 88, qty: 3, unit: "meters" },
+
+      'Rod, Armor, Preformed, #336.4 MCM, Double Support':
+        { price: 1500, qty: 3, unit: "sets" },
+
+      'Single Armor Grip Suspension Set for OPGW with Structural Reinforcing Rod & Outer Rod':
+        { price: 880, qty: 1, unit: "sets" },
+
+      'Washer, Flat Square, 2 1/4" x 2 1/4" x 3/16" w/ 11/16" Dia. Hole, HDG':
+        { price: 30, qty: 1, unit: "pieces" },
+
+      'Washer, Flat Square, 3" x 3" x 1/4" w/ 11/16" Dia. Hole, HDG':
+        { price: 45, qty: 2, unit: "pieces" },
+
+      'Washer, Flat Square, 3" x 3" x 1/4" w/ 13/16" Dia. Hole, HDG':
+        { price: 79, qty: 6, unit: "pieces" }
+
+    },
+
+    steel: {
+
+      'Pole, Steel, 70\', Bare-4.0mm (Two section), 86 Micron, 1200kgs (Minimum Load Break with Step Rank':
+        { price: 165000, qty: 1, unit: "piece" }
+
     }
-  }
 
-  function toggleAbout() {
-    document.getElementById("aboutSection").classList.toggle("hidden");
-  }
+  },
 
-  function populateStructureSelect() {
-    const select = document.getElementById("structureSelect");
-    select.innerHTML = '<option value="">-- Select Structure --</option>';
-    Object.keys(structuresDB).forEach(code => {
-      let opt = document.createElement("option");
-      opt.value = code;
-      opt.textContent = code;
-      select.appendChild(opt);
-    });
-  }
 
-  function addStructure() {
-    const code = document.getElementById("structureSelect").value;
-    const qty = parseInt(document.getElementById("structureQty").value);
-    if (!code) return alert("Please select a structure!");
-    if (qty <= 0) return alert("Quantity must be at least 1");
-    selectedStructures.push({ code, qty });
-    const materials = structuresDB[code];
-    for (let mat in materials) {
-      materialSummary[mat] = (materialSummary[mat] || 0) + materials[mat] * qty;
+  /* ---------------------------------------------------------
+     TP-2
+  --------------------------------------------------------- */
+
+  "TP-2": {
+
+    materials: {
+
+      'Anchor, Expanding, 10000 lbs, 8 - Ways, HDG':
+        { price: 800, qty: 2, unit: "pieces" },
+
+      'Anchor, Bonding Clamp, Single Eye, 3/4"':
+        { price: 75, qty: 2, unit: "pieces" },
+
+      'Anchor, Rod, Threaded, Single Eye, 3/4" x 8\', HDG':
+        { price: 700, qty: 2, unit: "pieces" },
+
+      'Bolt, Machine 3/4" x 12", HDG':
+        { price: 100, qty: 4, unit: "pieces" },
+
+      'Bolt, Machine 3/4" x 14", HDG':
+        { price: 110, qty: 2, unit: "pieces" },
+
+      'Bolt, Oval Eye 5/8" x 10", HDG':
+        { price: 131, qty: 1, unit: "pieces" },
+
+      'Bolt, Thimble Eye, 3/4" x 12", Angle Type, HDG':
+        { price: 148, qty: 1, unit: "pieces" },
+
+      'Bolt, Thimble Eye, 3/4" x 14", Angle Type, HDG':
+        { price: 160, qty: 1, unit: "pieces" },
+
+      'Clamp, Parallel Groove (PG Clamp) for OPGW':
+        { price: 470, qty: 1, unit: "pieces" },
+
+      'Connector, Ground Rod (Clamp) for 5/8" Steel Rod':
+        { price: 43, qty: 1, unit: "pieces" },
+
+      'Connector, Grounding Post 1/2" Stud Thread, L=2 3/16" for Copper #2.0 AWG':
+        { price: 180, qty: 4, unit: "pieces" },
+
+      'Grounding Rod, Steel, Galvanized, 5/8" x 10\', HDG':
+        { price: 700, qty: 1, unit: "pieces" },
+
+      'Grounding Wire (Aluminum Alloy) for OPGW with Terminal Connection':
+        { price: 280, qty: 1, unit: "pieces" },
+
+      'Guy, Dead-end Grip, 7/16"':
+        { price: 475, qty: 4, unit: "pieces" },
+
+      'Guy, Wire, Steel, 7/16", 7 Strand, High Strength (feet)':
+        { price: 25, qty: 320, unit: "feet" },
+
+      'Insulator, Post Horizontal (Silicon), 69kV, Gain Base, 12 Deg. Rise with Top Clamp, Drop Tongue & Conductor Clamp, L=42.3"':
+        { price: 6802, qty: 3, unit: "pieces" },
+
+      'Nut, Lock 5/8" Mf Type, HDG':
+        { price: 23, qty: 3, unit: "pieces" },
+
+      'Nut, Lock 3/4" Mf Type, HDG':
+        { price: 30, qty: 8, unit: "pieces" },
+
+      'Pole Ground Wire, Copper Bare #2.0 AWG':
+        { price: 88, qty: 3, unit: "meters" },
+
+      'Rod, Armor, Preformed, #336.4 MCM, Double Support':
+        { price: 1500, qty: 3, unit: "sets" },
+
+      'Single Armor Grip Suspension Set for OPGW with Structural Reinforcing Rod & Outer Rod':
+        { price: 880, qty: 1, unit: "sets" },
+
+      'Washer, Flat Square, 2 1/4" x 2 1/4" x 3/16" w/ 11/16" Dia. Hole, HDG':
+        { price: 30, qty: 1, unit: "pieces" },
+
+      'Washer, Flat Square, 3" x 3" x 1/4" w/ 11/16" Dia. Hole, HDG':
+        { price: 45, qty: 2, unit: "pieces" },
+
+      'Washer, Flat Square, 3" x 3" x 1/4" w/ 13/16" Dia. Hole, HDG':
+        { price: 79, qty: 6, unit: "pieces" }
+
+    },
+
+    steel: {
+
+      'Pole, Steel, 70\', Bare-4.0mm (Two section), 86 Micron, 1200kgs (Minimum Load Break with Step Rank':
+        { price: 165000, qty: 1, unit: "piece" }
+
     }
+
+  },
+
+
+  /* ---------------------------------------------------------
+     TS-4V
+  --------------------------------------------------------- */
+
+  "TS-4V": {
+
+    materials: {
+
+      'Anchor, Expanding, 10000 lbs, 8 - Ways, HDG':
+        { price: 800, qty: 2, unit: "pieces" },
+
+      'Anchor, Bonding Clamp, Single Eye, 3/4"':
+        { price: 75, qty: 1, unit: "pieces" },
+
+      'Anchor, Bonding Clamp, Twin Eye, 3/4"':
+        { price: 89, qty: 1, unit: "pieces" },
+
+      'Anchor, Rod, Threaded, Single Eye, 3/4" x 8\', HDG':
+        { price: 700, qty: 1, unit: "pieces" },
+
+      'Anchor, Rod, Threaded, Double Eye, 3/4" x 8\', HDG':
+        { price: 850, qty: 1, unit: "pieces" },
+
+      'Anchor, Shackle, 3/4", Forged Steel, HDG, Stainless Cotter Pin, Strength 35,000 lbs':
+        { price: 500, qty: 3, unit: "pieces" },
+
+      'Bolt, Oval Eye 5/8" x 10", HDG':
+        { price: 131, qty: 1, unit: "pieces" },
+
+      'Bolt, Oval Eye 3/4" x 12", HDG':
+        { price: 188, qty: 1, unit: "pieces" },
+
+      'Bolt, Oval Eye 3/4" x 14", HDG':
+        { price: 195, qty: 2, unit: "pieces" },
+
+      'Bolt, Thimble Eye, 3/4" x 12", Angle Type, HDG':
+        { price: 148, qty: 1, unit: "pieces" },
+
+      'Bolt, Thimble Eye, 3/4" x 14", Angle Type, HDG':
+        { price: 160, qty: 1, unit: "pieces" },
+
+      'Bolt, Thimble Eye, 3/4" x 16", Angle Type, HDG':
+        { price: 170, qty: 1, unit: "pieces" },
+
+      'Clamp, Parallel Groove (PG Clamp) for OPGW':
+        { price: 470, qty: 1, unit: "pieces" },
+
+      'Clamp, Suspension for 336.4 MCM, Strength 25,000 lbs (Aluminum, For use with Armor Rod)':
+        { price: 1500, qty: 3, unit: "pieces" },
+
+      'Connector, Ground Rod (Clamp) for 5/8" Steel Rod':
+        { price: 43, qty: 1, unit: "pieces" },
+
+      'Connector, Grounding Post 1/2" Stud Thread, L=2 3/16" for Copper #2.0 AWG':
+        { price: 180, qty: 4, unit: "pieces" },
+
+      'Grounding Rod, Steel, Galvanized, 5/8" x 10\', HDG':
+        { price: 700, qty: 1, unit: "pieces" },
+
+      'Grounding Wire (Aluminum Alloy) for OPGW with Terminal Connection':
+        { price: 280, qty: 1, unit: "pieces" },
+
+      'Guy, Dead-end Grip, 7/16"':
+        { price: 475, qty: 6, unit: "pieces" },
+
+      'Guy, Wire, Steel, 7/16", 7 Strand, High Strength (feet)':
+        { price: 25, qty: 640, unit: "feet" },
+
+      'Insulator, Suspension (Silicon), 69kV, Y - Ball Coupling, L = 43", Class 52 - 3/5':
+        { price: 5600, qty: 3, unit: "pieces" },
+
+      'Nut, Lock 5/8" Mf Type, HDG':
+        { price: 23, qty: 1, unit: "pieces" },
+
+      'Nut, Lock 3/4" Mf Type, HDG':
+        { price: 30, qty: 6, unit: "pieces" },
+
+      'Pole Ground Wire, Copper Bare #2.0 AWG':
+        { price: 88, qty: 3, unit: "meters" },
+
+      'Rod, Armor, Preformed, #336.4 MCM, Double Support':
+        { price: 1500, qty: 3, unit: "sets" },
+
+      'Double Armor Grip Suspension Set for OPGW with Structural Reinforcing Rod, Outer Rod & Triangular Yoke Plate':
+        { price: 1485, qty: 1, unit: "sets" },
+
+      'Washer, Flat Square, 2 1/4" x 2 1/4" x 3/16" w/ 11/16" Dia. Hole, HDG':
+        { price: 30, qty: 1, unit: "pieces" },
+
+      'Washer, Flat Square, 3" x 3" x 1/4" w/ 13/16" Dia. Hole, HDG':
+        { price: 79, qty: 6, unit: "pieces" }
+
+    },
+
+    steel: {
+
+      'Pole, Steel, 70\', Bare-4.0mm (Two section), 86 Micron, 1200kgs (Minimum Load Break with Step Rank':
+        { price: 165000, qty: 1, unit: "pieces" }
+
+    }
+
+  },
+
+
+  /* ---------------------------------------------------------
+     TS-5V
+  --------------------------------------------------------- */
+
+  "TS-5V": {
+
+    materials: {
+
+      'Anchor, Expanding, 10000 lbs, 8 - Ways, HDG':
+        { price: 800, qty: 4, unit: "pieces" },
+
+      'Anchor, Bonding Clamp, Twin Eye, 3/4"':
+        { price: 89, qty: 4, unit: "pieces" },
+
+      'Anchor, Rod, Threaded, Double Eye, 3/4" x 8\', HDG':
+        { price: 850, qty: 4, unit: "pieces" },
+
+      'Anchor, Shackle, 3/4", Forged Steel, HDG, Stainless Cotter Pin, Strength 35,000 lbs':
+        { price: 500, qty: 6, unit: "pieces" },
+
+      'Bolt, Oval Eye 5/8" x 10", HDG':
+        { price: 131, qty: 2, unit: "pieces" },
+
+      'Bolt, Oval Eye 3/4" x 12", HDG':
+        { price: 188, qty: 2, unit: "pieces" },
+
+      'Bolt, Oval Eye 3/4" x 14", HDG':
+        { price: 195, qty: 4, unit: "pieces" },
+
+      'Bolt, Thimble Eye, 3/4" x 12", Angle Type, HDG':
+        { price: 148, qty: 4, unit: "pieces" },
+
+      'Bolt, Thimble Eye, 3/4" x 14", Angle Type, HDG':
+        { price: 160, qty: 2, unit: "pieces" },
+
+      'Bolt, Thimble Eye, 3/4" x 16", Angle Type, HDG':
+        { price: 170, qty: 2, unit: "pieces" },
+
+      'Clamp, Dead-end Strain, #336.4 MCM (.7" - 1.39") Strength 35,000 lbs, Gap = 1 7/16", Pin = 3/4"':
+        { price: 2100, qty: 6, unit: "pieces" },
+
+      'Clamp, Parallel Groove (PG Clamp) for OPGW':
+        { price: 470, qty: 1, unit: "pieces" },
+
+      'Connector, Ground Rod (Clamp) for 5/8" Steel Rod':
+        { price: 43, qty: 1, unit: "pieces" },
+
+      'Connector, Grounding Post 1/2" Stud Thread, L=2 3/16" for Copper #2.0 AWG':
+        { price: 180, qty: 4, unit: "pieces" },
+
+      'Connector, Wedge Type, #336.4 MCM - #336.4 MCM':
+        { price: 1320, qty: 3, unit: "pieces" },
+
+      'Grounding Rod, Steel, Galvanized, 5/8" x 10\', HDG':
+        { price: 700, qty: 1, unit: "pieces" },
+
+      'Grounding Wire (Aluminum Alloy) for OPGW with Terminal Connection':
+        { price: 280, qty: 1, unit: "pieces" },
+
+      'Guy, Dead-end Grip, 7/16"':
+        { price: 475, qty: 16, unit: "pieces" },
+
+      'Guy, Wire, Steel, 7/16", 7 Strand, High Strength (feet)':
+        { price: 25, qty: 640, unit: "feet" },
+
+      'Insulator, Suspension (Silicon), 69kV, Y - Ball Coupling, L = 43", Class 52 - 3/5':
+        { price: 5600, qty: 6, unit: "pieces" },
+
+      'Nut, Lock 5/8" Mf Type, HDG':
+        { price: 23, qty: 2, unit: "pieces" },
+
+      'Nut, Lock 3/4" Mf Type, HDG':
+        { price: 30, qty: 14, unit: "pieces" },
+
+      'Pole Ground Wire, Copper Bare #2.0 AWG':
+        { price: 88, qty: 3, unit: "meters" },
+
+      'Preformed Tension Clamp for OPGW with U - Shackle, Eye Chain Link, Thimble Clevis, Inner & Outer Preformed Rods':
+        { price: 1790, qty: 2, unit: "sets" },
+
+      'Vibration Damper for OPGW':
+        { price: 780, qty: 2, unit: "pieces" },
+
+      'Vibration Damper for #336.4 MCM':
+        { price: 3800, qty: 6, unit: "pieces" },
+
+      'Washer, Flat Square, 2 1/4" x 2 1/4" x 3/16" w/ 11/16" Dia. Hole, HDG':
+        { price: 30, qty: 2, unit: "pieces" },
+
+      'Washer, Flat Square, 3" x 3" x 1/4" w/ 13/16" Dia. Hole, HDG':
+        { price: 79, qty: 14, unit: "pieces" }
+
+    },
+
+    steel: {
+
+      'Pole, Steel, 70\', Bare-4.0mm (Two section), 86 Micron, 1200kgs (Minimum Load Break with Step Rank':
+        { price: 165000, qty: 1, unit: "pieces" }
+
+    }
+
+  },
+
+
+  /* ---------------------------------------------------------
+     TS-5G
+  --------------------------------------------------------- */
+
+  "TS-5G": {
+
+    materials: {
+
+      'Anchor, Shackle, 3/4", Forged Steel, HDG, Stainless Cotter Pin, Strength 35,000 lbs':
+        { price: 500, qty: 6, unit: "pieces" },
+
+      'Bolt, Machine 3/4" x 12", HDG':
+        { price: 100, qty: 2, unit: "pieces" },
+
+      'Bolt, Machine 3/4" x 14", HDG':
+        { price: 110, qty: 4, unit: "pieces" },
+
+      'Bolt, Oval Eye 5/8" x 10", HDG':
+        { price: 131, qty: 1, unit: "pieces" },
+
+      'Bolt, Oval Eye 3/4" x 12", HDG':
+        { price: 188, qty: 1, unit: "pieces" },
+
+      'Bolt, Oval Eye 3/4" x 14", HDG':
+        { price: 195, qty: 2, unit: "pieces" },
+
+      'Clamp, Dead-end Strain, #336.4 MCM (.7" - 1.39") Strength 35,000 lbs, Gap = 1 7/16", Pin = 3/4"':
+        { price: 2100, qty: 6, unit: "pieces" },
+
+      'Clamp, Parallel Groove (PG Clamp) for OPGW':
+        { price: 470, qty: 1, unit: "pieces" },
+
+      'Connector, Ground Rod (Clamp) for 5/8" Steel Rod':
+        { price: 43, qty: 1, unit: "pieces" },
+
+      'Connector, Grounding Post 1/2" Stud Thread, L=2 3/16" for Copper #2.0 AWG':
+        { price: 180, qty: 4, unit: "pieces" },
+
+      'Connector, Wedge Type, #336.4 MCM - #336.4 MCM':
+        { price: 1320, qty: 3, unit: "pieces" },
+
+      'Grounding Rod, Steel, Galvanized, 5/8" x 10\', HDG':
+        { price: 700, qty: 1, unit: "pieces" },
+
+      'Grounding Wire (Aluminum Alloy) for OPGW with Terminal Connection':
+        { price: 280, qty: 1, unit: "pieces" },
+
+      'Insulator, Post Horizontal (Silicon), 69kV, Gain Base, 12 Deg. Rise with Top Clamp, Drop Tongue & Conductor Clamp, L=42.3"':
+        { price: 6802, qty: 3, unit: "pieces" },
+
+      'Insulator, Suspension (Silicon), 69kV, Y - Ball Coupling, L = 43", Class 52 - 3/5':
+        { price: 5600, qty: 6, unit: "pieces" },
+
+      'Nut, Eye, 5/8", Conventional, HDG':
+        { price: 95, qty: 1, unit: "pieces" },
+
+      'Nut, Eye, 3/4", Conventional, HDG':
+        { price: 105, qty: 3, unit: "pieces" },
+
+      'Nut, Lock 5/8" Mf Type, HDG':
+        { price: 23, qty: 1, unit: "pieces" },
+
+      'Nut, Lock 3/4" Mf Type, HDG':
+        { price: 30, qty: 12, unit: "pieces" },
+
+      'Pole Ground Wire, Copper Bare #2.0 AWG':
+        { price: 88, qty: 3, unit: "meters" },
+
+      'Preformed Tension Clamp for OPGW with U - Shackle, Eye Chain Link, Thimble Clevis, Inner & Outer Preformed Rods':
+        { price: 1790, qty: 2, unit: "sets" },
+
+      'Vibration Damper for OPGW':
+        { price: 780, qty: 2, unit: "pieces" },
+
+      'Vibration Damper for #336.4 MCM':
+        { price: 3800, qty: 6, unit: "pieces" },
+
+      'Washer, Flat Square, 2 1/4" x 2 1/4" x 3/16" w/ 11/16" Dia. Hole, HDG':
+        { price: 30, qty: 2, unit: "pieces" },
+
+      'Washer, Flat Square, 3" x 3" x 1/4" w/ 11/16" Dia. Hole, HDG':
+        { price: 45, qty: 2, unit: "pieces" },
+
+      'Washer, Flat Square, 3" x 3" x 1/4" w/ 13/16" Dia. Hole, HDG':
+        { price: 79, qty: 12, unit: "pieces" }
+
+    },
+
+    steel: {
+
+      'Pole, Steel, 70\', Bare-4.0mm (Two section), 86 Micron, 1200kgs (Minimum Load Break with Step Rank':
+        { price: 165000, qty: 1, unit: "pieces" }
+
+    }
+
+  }
+
+};
+
+
+/* =========================================================
+   LOGIN FUNCTION
+========================================================= */
+
+function login() {
+
+  const name =
+    document.getElementById("username").value.trim();
+
+  const pass =
+    document.getElementById("password").value.trim();
+
+  if (
+    allowedUsers[name] &&
+    allowedUsers[name] === pass
+  ) {
+
+    currentUser = name;
+
+    document.getElementById("welcomeUser").textContent =
+      "👤 Welcome, " + name;
+
+    document
+      .getElementById("welcomeUser")
+      .classList.remove("hidden");
+
+    showPage("introPage");
+
+    document.getElementById("error").style.display = "none";
+
+  } else {
+
+    document.getElementById("error").style.display = "block";
+
+  }
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout() {
+
+  currentUser = "";
+
+  selectedStructures = [];
+
+  materialSummary = {};
+
+  steelSummary = {};
+
+  document.getElementById("username").value = "";
+
+  document.getElementById("password").value = "";
+
+  document
+    .getElementById("welcomeUser")
+    .classList.add("hidden");
+
+  showPage("loginPage");
+}
+
+
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+function showPage(pageId) {
+
+  document
+    .querySelectorAll(".box")
+    .forEach(el => el.classList.add("hidden"));
+
+  document
+    .getElementById(pageId)
+    .classList.remove("hidden");
+
+  if (pageId === "materialListPage") {
+
+    populateStructureSelect();
+
     updateTables();
+
+  }
+}
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+function toggleAbout() {
+
+  document
+    .getElementById("aboutSection")
+    .classList.toggle("hidden");
+
+}
+
+
+/* =========================================================
+   POPULATE STRUCTURE DROPDOWN
+========================================================= */
+
+function populateStructureSelect() {
+
+  const select =
+    document.getElementById("structureSelect");
+
+  select.innerHTML =
+    '<option value="">-- Select Structure --</option>';
+
+  Object.keys(structuresDB).forEach(code => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = code;
+
+    option.textContent = code;
+
+    select.appendChild(option);
+
+  });
+
+}
+
+
+/* =========================================================
+   ADD STRUCTURE
+========================================================= */
+
+function addStructure() {
+
+  const code =
+    document.getElementById("structureSelect").value;
+
+  const qty =
+    parseInt(
+      document.getElementById("structureQty").value
+    );
+
+  if (!code) {
+
+    alert("Please select a structure!");
+
+    return;
+
   }
 
-  function deleteStructure(index) {
-    selectedStructures.splice(index, 1);
-    materialSummary = {};
-    selectedStructures.forEach(({ code, qty }) => {
-      const mats = structuresDB[code];
-      for (let m in mats) {
-        materialSummary[m] = (materialSummary[m] || 0) + mats[m] * qty;
+  if (!qty || qty <= 0) {
+
+    alert("Quantity must be at least 1.");
+
+    return;
+
+  }
+
+
+  selectedStructures.push({
+    code: code,
+    qty: qty
+  });
+
+
+  calculateSummary();
+
+  updateTables();
+
+}
+
+
+/* =========================================================
+   DELETE STRUCTURE
+========================================================= */
+
+function deleteStructure(index) {
+
+  selectedStructures.splice(index, 1);
+
+  calculateSummary();
+
+  updateTables();
+
+}
+
+
+/* =========================================================
+   CLEAR ALL
+========================================================= */
+
+function clearAll() {
+
+  if (selectedStructures.length === 0) {
+    return;
+  }
+
+  if (
+    !confirm(
+      "Are you sure you want to remove all selected structures?"
+    )
+  ) {
+    return;
+  }
+
+  selectedStructures = [];
+
+  materialSummary = {};
+
+  steelSummary = {};
+
+  updateTables();
+
+}
+
+
+/* =========================================================
+   CALCULATE MATERIAL SUMMARY
+========================================================= */
+
+function calculateSummary() {
+
+  materialSummary = {};
+
+  steelSummary = {};
+
+
+  selectedStructures.forEach(structure => {
+
+    const data =
+      structuresDB[structure.code];
+
+    const multiplier =
+      structure.qty;
+
+
+    /* REGULAR MATERIALS */
+
+    Object.entries(data.materials).forEach(
+      ([material, item]) => {
+
+        if (!materialSummary[material]) {
+
+          materialSummary[material] = {
+
+            price: item.price,
+
+            qty: 0,
+
+            unit: item.unit
+
+          };
+
+        }
+
+        materialSummary[material].qty +=
+          item.qty * multiplier;
+
       }
-    });
-    updateTables();
-  }
+    );
 
-  function updateTables() {
-    const sTable = document.getElementById("structureTable");
-    sTable.innerHTML = selectedStructures.map((s,i) =>
-      `<tr><td>${i+1}</td><td>${s.code}</td><td>${s.qty}</td><td><button class="delete-btn" onclick="deleteStructure(${i})">Remove</button></td></tr>`
+
+    /* STEEL MATERIALS */
+
+    Object.entries(data.steel).forEach(
+      ([material, item]) => {
+
+        if (!steelSummary[material]) {
+
+          steelSummary[material] = {
+
+            price: item.price,
+
+            qty: 0,
+
+            unit: item.unit
+
+          };
+
+        }
+
+        steelSummary[material].qty +=
+          item.qty * multiplier;
+
+      }
+    );
+
+  });
+
+}
+
+
+/* =========================================================
+   FORMAT CURRENCY
+========================================================= */
+
+function formatCurrency(value) {
+
+  return "₱" +
+    Number(value).toLocaleString(
+      "en-PH",
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }
+    );
+
+}
+
+
+/* =========================================================
+   UPDATE TABLES
+========================================================= */
+
+function updateTables() {
+
+  /* SELECTED STRUCTURES */
+
+  const structureTable =
+    document.getElementById("structureTable");
+
+  structureTable.innerHTML =
+    selectedStructures.map(
+      (s, i) => `
+        <tr>
+          <td>${i + 1}</td>
+          <td><b>${s.code}</b></td>
+          <td>${s.qty}</td>
+          <td class="no-print">
+            <button
+              class="delete-btn"
+              onclick="deleteStructure(${i})"
+            >
+              Remove
+            </button>
+          </td>
+        </tr>
+      `
     ).join("");
-    const mTable = document.getElementById("materialsTable");
-    mTable.innerHTML = Object.entries(materialSummary)
-      .map(([mat,qty]) => `<tr><td>${mat}</td><td>${qty}</td></tr>`).join("");
+
+
+  /* REGULAR MATERIALS */
+
+  const materialsTable =
+    document.getElementById("materialsTable");
+
+  let regularSubtotal = 0;
+
+  materialsTable.innerHTML =
+    Object.entries(materialSummary)
+      .map(([material, item], index) => {
+
+        const total =
+          item.price * item.qty;
+
+        regularSubtotal += total;
+
+        return `
+          <tr>
+            <td>${index + 1}</td>
+            <td style="text-align:left;">
+              ${material}
+            </td>
+            <td class="currency">
+              ${formatCurrency(item.price)}
+            </td>
+            <td>${item.qty}</td>
+            <td>${item.unit}</td>
+            <td class="currency">
+              <b>${formatCurrency(total)}</b>
+            </td>
+          </tr>
+        `;
+
+      })
+      .join("");
+
+
+  /* STEEL MATERIALS */
+
+  const steelTable =
+    document.getElementById("steelMaterialsTable");
+
+  let steelSubtotal = 0;
+
+  steelTable.innerHTML =
+    Object.entries(steelSummary)
+      .map(([material, item], index) => {
+
+        const total =
+          item.price * item.qty;
+
+        steelSubtotal += total;
+
+        return `
+          <tr>
+            <td>${index + 1}</td>
+            <td style="text-align:left;">
+              ${material}
+            </td>
+            <td class="currency">
+              ${formatCurrency(item.price)}
+            </td>
+            <td>${item.qty}</td>
+            <td>${item.unit}</td>
+            <td class="currency">
+              <b>${formatCurrency(total)}</b>
+            </td>
+          </tr>
+        `;
+
+      })
+      .join("");
+
+
+  /* SUBTOTALS */
+
+  document.getElementById("regularSubtotal").textContent =
+    "Regular Materials Subtotal: " +
+    formatCurrency(regularSubtotal);
+
+
+  document.getElementById("steelSubtotal").textContent =
+    "Steel Materials Subtotal: " +
+    formatCurrency(steelSubtotal);
+
+
+  /* GRAND TOTAL */
+
+  const grandTotal =
+    regularSubtotal + steelSubtotal;
+
+  document.getElementById("grandTotal").textContent =
+    "GRAND TOTAL: " +
+    formatCurrency(grandTotal);
+
+}
+
+
+/* =========================================================
+   PRINT REPORT
+========================================================= */
+
+function printReport() {
+
+  if (selectedStructures.length === 0) {
+
+    alert("No structures added!");
+
+    return;
+
   }
 
-  function printReport() {
-    if (selectedStructures.length === 0) return alert("No structures added!");
-    let html = `<html><head><title>ZANECO Report</title>
-    <style> body { font-family: Arial; padding: 20px; } h2,h3 { text-align: center; margin: 5px 0; } 
-    table { border-collapse: collapse; width: 100%; margin-top: 10px; } th, td { border: 1px solid #333; padding: 6px; font-size: 12px; } 
-    th { background: #003366; color: gold; } </style></head><body>
-    <h2>ZAMBOANGA DEL NORTE ELECTRIC COOPERATIVE, INC.</h2>
-    <h3>Technical Services Department</h3><hr>
-    <p><b>Prepared by:</b> ${currentUser}</p>
-    <h3>Selected Structures</h3>
-    <table><thead><tr><th>#</th><th>Structure</th><th>Qty</th></tr></thead><tbody>
-    ${selectedStructures.map((s,i)=>`<tr><td>${i+1}</td><td>${s.code}</td><td>${s.qty}</td></tr>`).join("")}
-    </tbody></table>
-    <h3>Materials Summary</h3>
-    <table><thead><tr><th>Material</th><th>Quantity</th></tr></thead><tbody>
-    ${Object.entries(materialSummary).map(([m,q])=>`<tr><td>${m}</td><td>${q}</td></tr>`).join("")}
-    </tbody></table></body></html>`;
-    const w = window.open("", "_blank");
-    w.document.write(html);
-    w.document.close();
-    w.print();
-  }
+
+  calculateSummary();
+
+
+  let regularSubtotal = 0;
+
+  let steelSubtotal = 0;
+
+
+  /* STRUCTURE ROWS */
+
+  const structureRows =
+    selectedStructures
+      .map(
+        (s, i) => `
+          <tr>
+            <td>${i + 1}</td>
+            <td>${s.code}</td>
+            <td>${s.qty}</td>
+          </tr>
+        `
+      )
+      .join("");
+
+
+  /* REGULAR MATERIAL ROWS */
+
+  const regularRows =
+    Object.entries(materialSummary)
+      .map(([material, item], index) => {
+
+        const total =
+          item.price * item.qty;
+
+        regularSubtotal += total;
+
+        return `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${material}</td>
+            <td>${formatCurrency(item.price)}</td>
+            <td>${item.qty}</td>
+            <td>${item.unit}</td>
+            <td>${formatCurrency(total)}</td>
+          </tr>
+        `;
+
+      })
+      .join("");
+
+
+  /* STEEL MATERIAL ROWS */
+
+  const steelRows =
+    Object.entries(steelSummary)
+      .map(([material, item], index) => {
+
+        const total =
+          item.price * item.qty;
+
+        steelSubtotal += total;
+
+        return `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${material}</td>
+            <td>${formatCurrency(item.price)}</td>
+            <td>${item.qty}</td>
+            <td>${item.unit}</td>
+            <td>${formatCurrency(total)}</td>
+          </tr>
+        `;
+
+      })
+      .join("");
+
+
+  const grandTotal =
+    regularSubtotal + steelSubtotal;
+
+
+  /* PRINT WINDOW */
+
+  const report = `
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <title>ZANECO Material Report</title>
+
+  <style>
+
+    body {
+      font-family: Arial, sans-serif;
+      padding: 25px;
+      color: #111;
+    }
+
+    h1,
+    h2,
+    h3 {
+      text-align: center;
+      margin: 5px 0;
+    }
+
+    h1 {
+      font-size: 20px;
+    }
+
+    h2 {
+      font-size: 17px;
+      margin-top: 25px;
+    }
+
+    h3 {
+      font-size: 14px;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid #333;
+      margin: 15px 0;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    th,
+    td {
+      border: 1px solid #333;
+      padding: 6px;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    th {
+      background: #003366;
+      color: gold;
+    }
+
+    td:nth-child(2) {
+      text-align: left;
+    }
+
+    .subtotal {
+      text-align: right;
+      font-weight: bold;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .grand {
+      background: #003366;
+      color: gold;
+      padding: 12px;
+      margin-top: 20px;
+      text-align: right;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .signature {
+      margin-top: 50px;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <h1>
+    ZAMBOANGA DEL NORTE ELECTRIC COOPERATIVE, INC.
+  </h1>
+
+  <h3>
+    Technical Services Department
+  </h3>
+
+  <h3>
+    Planning and Design Section
+  </h3>
+
+  <hr>
+
+  <p>
+    <b>Prepared by:</b> ${currentUser}
+  </p>
+
+  <p>
+    <b>Date:</b> ${new Date().toLocaleDateString("en-PH")}
+  </p>
+
+
+  <h2>SELECTED STRUCTURES</h2>
+
+  <table>
+
+    <thead>
+
+      <tr>
+        <th>#</th>
+        <th>Structure</th>
+        <th>Quantity</th>
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      ${structureRows}
+
+    </tbody>
+
+  </table>
+
+
+  <h2>REGULAR MATERIALS</h2>
+
+  <table>
+
+    <thead>
+
+      <tr>
+        <th>#</th>
+        <th>Material</th>
+        <th>Unit Price</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th>Total Price</th>
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      ${regularRows}
+
+    </tbody>
+
+  </table>
+
+  <div class="subtotal">
+    Regular Materials Subtotal:
+    ${formatCurrency(regularSubtotal)}
+  </div>
+
+
+  <h2>STEEL MATERIALS</h2>
+
+  <table>
+
+    <thead>
+
+      <tr>
+        <th>#</th>
+        <th>Steel Material</th>
+        <th>Unit Price</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th>Total Price</th>
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      ${steelRows}
+
+    </tbody>
+
+  </table>
+
+  <div class="subtotal">
+    Steel Materials Subtotal:
+    ${formatCurrency(steelSubtotal)}
+  </div>
+
+
+  <div class="grand">
+    GRAND TOTAL:
+    ${formatCurrency(grandTotal)}
+  </div>
+
+
+  <div class="signature">
+
+    <p>
+      Prepared by:
+    </p>
+
+    <br><br>
+
+    <b>${currentUser}</b>
+
+    <br>
+
+    Planning and Design Section
+
+  </div>
+
+
+</body>
+
+</html>
+
+  `;
+
+
+  const printWindow =
+    window.open("", "_blank");
+
+
+  printWindow.document.write(report);
+
+  printWindow.document.close();
+
+  printWindow.focus();
+
+  setTimeout(() => {
+
+    printWindow.print();
+
+  }, 500);
+
+}
+
 </script>
+
 </body>
 </html>
