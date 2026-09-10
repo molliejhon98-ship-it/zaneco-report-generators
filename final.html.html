@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ZANECO Report Generator</title>
+  <title>ZANECO – Subtransmission Line (69KV) Bill Of Materials</title>
 
   <style>
     body {
@@ -138,6 +138,7 @@
       width: 100%;
       margin-top: 20px;
       font-size: 13px;
+      table-layout: fixed;
     }
 
     th,
@@ -246,6 +247,30 @@
       white-space: nowrap;
     }
 
+    #materialsTable td:nth-child(2),
+    #steelMaterialsTable td:nth-child(2) {
+      width: 58%;
+      text-align: left;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    #materialsTable th:nth-child(2),
+    #steelMaterialsTable th:nth-child(2) {
+      width: 58%;
+    }
+
+    #materialsTable th:nth-child(3),
+    #materialsTable th:nth-child(4),
+    #materialsTable th:nth-child(5),
+    #materialsTable th:nth-child(6),
+    #steelMaterialsTable th:nth-child(3),
+    #steelMaterialsTable th:nth-child(4),
+    #steelMaterialsTable th:nth-child(5),
+    #steelMaterialsTable th:nth-child(6) {
+      white-space: nowrap;
+    }
+
     @media print {
       .no-print {
         display: none !important;
@@ -263,6 +288,8 @@
       }
     }
   </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -275,7 +302,7 @@
 </div>
 
 <header>
-  ⚡ ZANECO – Distribution Line Report Generator ⚡
+  ⚡ ZANECO – Subtransmission Line (69KV) Bill Of Materials ⚡
   <span id="welcomeUser" class="hidden"></span>
 </header>
 
@@ -321,12 +348,8 @@
 
   <p>Choose an option:</p>
 
-  <button onclick="showPage('materialCostPage')">
-    💰 Distribution Line Material Cost
-  </button>
-
   <button onclick="showPage('materialListPage')">
-    📋 Distribution Line Material List
+    📋 Subtransmission Line (69KV) - Bill Of Materials
   </button>
 
   <div id="aboutSection" class="about-content hidden">
@@ -341,35 +364,15 @@
       <br><br>
 
       This system helps engineers and planners calculate and generate
-      material requirements for distribution line structures based on
+      material requirements for subtransmission line structures based on
       NEA Engineering Bulletins. It provides quick summaries,
-      cost calculations, and printable reports for project use.
+      cost calculations, printable reports, and downloadable Excel
+      bill-of-materials files for project use.
     </p>
 
   </div>
 
 </div>
-
-
-<!-- MATERIAL COST PAGE -->
-<div id="materialCostPage" class="box hidden">
-
-  <button class="top-btn" onclick="showPage('introPage')">
-    ⬅ Back
-  </button>
-
-  <h1>💰 Material Cost Generator</h1>
-
-  <p>
-    Material costing is integrated into the Material List Generator.
-  </p>
-
-  <button onclick="showPage('materialListPage')">
-    📋 Open Material List Generator
-  </button>
-
-</div>
-
 
 <!-- MATERIAL LIST PAGE -->
 <div id="materialListPage" class="box hidden">
@@ -378,7 +381,7 @@
     ⬅ Back
   </button>
 
-  <h1>📋 Distribution Line Material List Generator</h1>
+  <h1>📋 Subtransmission Line (69KV) - Bill Of Materials</h1>
 
   <div class="no-print">
 
@@ -404,6 +407,10 @@
 
     <button onclick="printReport()">
       🖨 Print Report
+    </button>
+
+    <button onclick="downloadExcel()">
+      📊 Download Excel
     </button>
 
   </div>
@@ -1496,6 +1503,236 @@ function updateTables() {
 
 
 /* =========================================================
+   DOWNLOAD EXCEL
+   Creates an Excel BOM closely matching the supplied format:
+   - Long material-description column
+   - Separate PRICE / QUANTITY / UNIT columns
+   - Separate Steel Materials section
+   - Wrapped descriptions and controlled row heights
+========================================================= */
+
+function downloadExcel() {
+
+  if (selectedStructures.length === 0) {
+    alert("No structures added!");
+    return;
+  }
+
+  if (typeof XLSX === "undefined") {
+    alert("The Excel library could not be loaded. Please check your internet connection and try again.");
+    return;
+  }
+
+  calculateSummary();
+
+  const workbook = XLSX.utils.book_new();
+  const rows = [];
+
+  // Title
+  rows.push([
+    "Subtransmission Line (69KV) - Bill Of Materials",
+    "",
+    "",
+    ""
+  ]);
+
+  // Optional project metadata
+  rows.push([
+    "Prepared by:",
+    currentUser || "",
+    "",
+    ""
+  ]);
+
+  rows.push([
+    "Generated:",
+    new Date().toLocaleString("en-PH"),
+    "",
+    ""
+  ]);
+
+  // Header matching the supplied Excel layout.
+  rows.push(["MATERIALS", "PRICE", "QUANTITY", "UNIT"]);
+
+  // Regular materials.
+  Object.entries(materialSummary).forEach(([material, item]) => {
+    rows.push([
+      material,
+      Number(item.price),
+      Number(item.qty),
+      item.unit
+    ]);
+  });
+
+  // Blank row before steel materials.
+  rows.push(["", "", "", ""]);
+
+  // Steel section.
+  rows.push(["Steel Materials", "", "", ""]);
+
+  Object.entries(steelSummary).forEach(([material, item]) => {
+    rows.push([
+      material,
+      Number(item.price),
+      Number(item.qty),
+      item.unit
+    ]);
+  });
+
+  // Totals.
+  let regularTotal = 0;
+  Object.values(materialSummary).forEach(item => {
+    regularTotal += Number(item.price) * Number(item.qty);
+  });
+
+  let steelTotal = 0;
+  Object.values(steelSummary).forEach(item => {
+    steelTotal += Number(item.price) * Number(item.qty);
+  });
+
+  rows.push(["", "", "", ""]);
+  rows.push(["Regular Materials Subtotal", regularTotal, "", ""]);
+  rows.push(["Steel Materials Subtotal", steelTotal, "", ""]);
+  rows.push(["GRAND TOTAL", regularTotal + steelTotal, "", ""]);
+
+  const worksheet = XLSX.utils.aoa_to_sheet(rows);
+
+  // Merge title and section rows across the full BOM width.
+  worksheet["!merges"] = [
+    { s: { r: 0, c: 0 }, e: { r: 0, c: 3 } },
+    { s: { r: 6 + Object.keys(materialSummary).length, c: 0 },
+      e: { r: 6 + Object.keys(materialSummary).length, c: 3 } }
+  ];
+
+  // Column widths deliberately favor the long material descriptions.
+  worksheet["!cols"] = [
+    { wch: 88 },  // MATERIALS
+    { wch: 16 },  // PRICE
+    { wch: 14 },  // QUANTITY
+    { wch: 14 }   // UNIT
+  ];
+
+  // Row heights / wrapping for lengthy descriptions.
+  worksheet["!rows"] = rows.map((row, index) => {
+    if (index === 0) return { hpt: 28 };
+    if (index === 3) return { hpt: 24 };
+
+    const description = String(row[0] || "");
+    const estimatedLines = Math.max(1, Math.ceil(description.length / 70));
+    return { hpt: Math.min(90, Math.max(18, estimatedLines * 15)) };
+  });
+
+  // Cell styling.
+  const border = {
+    top: { style: "thin" },
+    bottom: { style: "thin" },
+    left: { style: "thin" },
+    right: { style: "thin" }
+  };
+
+  // Title.
+  if (worksheet["A1"]) {
+    worksheet["A1"].s = {
+      font: { bold: true, sz: 16 },
+      alignment: { horizontal: "center", vertical: "center" }
+    };
+  }
+
+  // Metadata.
+  ["A2", "A3"].forEach(cell => {
+    if (worksheet[cell]) {
+      worksheet[cell].s = {
+        font: { bold: true },
+        alignment: { vertical: "center" }
+      };
+    }
+  });
+
+  // Main table header.
+  ["A4", "B4", "C4", "D4"].forEach(cell => {
+    if (worksheet[cell]) {
+      worksheet[cell].s = {
+        font: { bold: true },
+        alignment: { horizontal: "center", vertical: "center", wrapText: true },
+        border
+      };
+    }
+  });
+
+  // Determine the steel section row.
+  const steelSectionRow = 6 + Object.keys(materialSummary).length;
+
+  if (worksheet["A" + (steelSectionRow + 1)]) {
+    worksheet["A" + (steelSectionRow + 1)].s = {
+      font: { bold: true, sz: 12 },
+      alignment: { horizontal: "center", vertical: "center" },
+      border
+    };
+  }
+
+  // Apply borders, wrapping and number formats.
+  rows.forEach((row, r) => {
+    for (let c = 0; c < 4; c++) {
+      const cellAddress = XLSX.utils.encode_cell({ r, c });
+      const cell = worksheet[cellAddress];
+
+      if (!cell) continue;
+
+      cell.s = Object.assign({}, cell.s || {}, {
+        alignment: Object.assign(
+          { vertical: "center", wrapText: true },
+          (cell.s && cell.s.alignment) || {}
+        ),
+        border
+      });
+
+      if (c === 1 && typeof cell.v === "number") {
+        cell.z = '₱#,##0.00';
+        cell.s.alignment = { horizontal: "right", vertical: "center" };
+      }
+
+      if (c === 2 && typeof cell.v === "number") {
+        cell.z = '#,##0.##';
+        cell.s.alignment = { horizontal: "right", vertical: "center" };
+      }
+    }
+  });
+
+  // Make the section and total rows visually distinct.
+  const totalStartRow = rows.length - 3;
+
+  for (let r = totalStartRow; r < rows.length; r++) {
+    const cellA = worksheet["A" + (r + 1)];
+    if (cellA) {
+      cellA.s = Object.assign({}, cellA.s || {}, {
+        font: { bold: true },
+        alignment: { horizontal: r === rows.length - 1 ? "left" : "left", vertical: "center" }
+      });
+    }
+
+    const cellB = worksheet["B" + (r + 1)];
+    if (cellB && typeof cellB.v === "number") {
+      cellB.z = '₱#,##0.00';
+      cellB.s = Object.assign({}, cellB.s || {}, {
+        font: { bold: true },
+        alignment: { horizontal: "right", vertical: "center" }
+      });
+    }
+  }
+
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Bill of Materials");
+
+  const dateStamp = new Date().toISOString().slice(0, 10);
+  const filename =
+    "ZANECO_Subtransmission_69KV_Bill_of_Materials_" +
+    dateStamp +
+    ".xlsx";
+
+  XLSX.writeFile(workbook, filename);
+}
+
+
+/* =========================================================
    PRINT REPORT
 ========================================================= */
 
@@ -1600,7 +1837,7 @@ function printReport() {
 
 <head>
 
-  <title>ZANECO Material Report</title>
+  <title>ZANECO – Subtransmission Line (69KV) - Bill Of Materials</title>
 
   <style>
 
@@ -1689,6 +1926,8 @@ function printReport() {
   <h1>
     ZAMBOANGA DEL NORTE ELECTRIC COOPERATIVE, INC.
   </h1>
+
+  <h2>Subtransmission Line (69KV) - Bill Of Materials</h2>
 
   <h3>
     Technical Services Department
